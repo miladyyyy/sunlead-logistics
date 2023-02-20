@@ -24,3 +24,12 @@ html {
 #app {
   height: 100%;
 }
+
+.el-tooltip__popper.is-light {
+  padding: 20px !important;
+  box-shadow: 0 1px 5px 3px rgb(0 0 0 / 7%);
+  
+  &,.popper__arrow  {
+    border: none !important;
+  }
+}

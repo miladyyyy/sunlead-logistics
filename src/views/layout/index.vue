@@ -94,7 +94,7 @@ export default {
     },
 
     logout () {
-      this.$$store.dispatch('user/logoutAction')
+      this.$store.dispatch('user/logoutAction')
       this.$router.push('/logout')
     }
   }
@@ -179,8 +179,11 @@ export default {
   height: 100%;
 }
 
-.el-main {
-  background-color: pink;
-  min-height: 800px;
+.el-main{
+   background-color: pink;
+  min-height: 100vh;
+  position: relative;
+  margin-left: 227px;
+  margin-top: 60px;
 }
 </style>
