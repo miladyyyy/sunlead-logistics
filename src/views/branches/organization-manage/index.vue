@@ -160,13 +160,29 @@
             <span>员工信息</span>
           </template>
           <el-table :data="employeeList" stripe style="width: 100%">
-            <el-table-column type="index" label="序号" width="50" align="center"/>
-            <el-table-column prop="userId" label="员工编号"/>
-            <el-table-column prop="mobile" label="手机号"/>
-            <el-table-column prop="agency" label="所属机构"/>
-            <el-table-column prop="accont" label="系统账户"/>
-            <el-table-column prop="stationName" label="系统角色"/>
-            <el-table-column prop="status" label="账号状态"/>
+            <el-table-column
+              type="index"
+              label="序号"
+              width="50"
+              align="center"
+            />
+            <el-table-column prop="userId" label="员工编号" />
+            <el-table-column prop="name" label="员工姓名" />
+            <el-table-column prop="mobile" label="手机号" />
+            <el-table-column
+              prop="agency"
+              label="所属机构"
+              :formatter="agencyFormatter"
+            />
+            <el-table-column prop="account" label="系统账户" />
+            <el-table-column prop="stationName" label="系统角色" />
+            <el-table-column label="账号状态">
+              <template #default="{ row }">
+                <div class="tableColumn-status">
+                  {{ row.status | statusFilter }}
+                </div>
+              </template>
+            </el-table-column>
           </el-table>
         </el-card>
       </div>
@@ -175,8 +191,12 @@
   </div>
 </template>
 <script>
-import { getOrgTreeAPI, getOrgDetailAPI, getEmployeeListAPI } from '@/api/organization'
-import { getAreasAPI, getAreasByIdAPI } from '@/api/index'
+import {
+  getOrgTreeAPI,
+  getOrgDetailAPI,
+  getEmployeeListAPI,
+} from "@/api/organization";
+import { getAreasAPI, getAreasByIdAPI } from "@/api/index";
 
 // const orgTypeMap = new Map()
 // orgTypeMap
@@ -185,54 +205,59 @@ import { getAreasAPI, getAreasByIdAPI } from '@/api/index'
 //   .set(3, '营业部')
 
 export default {
-  name: 'organization-manage',
-  data () {
+  name: "organization-manage",
+  filters: {
+    statusFilter(value) {
+      return value === 1 ? "正常" : "异常";
+    },
+  },
+  data() {
     return {
       isEdit: false,
       orgType: [
         {
           value: 1,
-          label: '一级转运中心'
+          label: "一级转运中心",
         },
         {
           value: 2,
-          label: '二级转运中心'
+          label: "二级转运中心",
         },
         {
           value: 3,
-          label: '营业部'
-        }
+          label: "营业部",
+        },
       ],
       treeData: [],
-      defaultProps: { label: 'name' },
-      defaultKey: '1024985129287809409',
+      defaultProps: { label: "name" },
+      defaultKey: "1024985129287809409",
       orgForm: {
-        address: '',
+        address: "",
         province: {
-          id: '',
-          lat: '',
-          lng: '',
+          id: "",
+          lat: "",
+          lng: "",
           mutiPoints: null,
-          name: ''
+          name: "",
         },
 
         city: {
-          id: '',
-          lat: '',
-          lng: '',
+          id: "",
+          lat: "",
+          lng: "",
           mutiPoints: null,
-          name: ''
+          name: "",
         },
 
         county: {
-          id: '',
-          latitude: '',
-          longitude: '',
-          managerName: '',
-          name: ''
+          id: "",
+          latitude: "",
+          longitude: "",
+          managerName: "",
+          name: "",
         },
-        phone: '',
-        type: null
+        phone: "",
+        type: null,
       },
       provinceList: [],
       cityList: [],
@@ -242,67 +267,76 @@ export default {
 
       employeeListParams: {
         agencyId: null,
-        page: '1',
-        pageSize: '2'
-      }
-    }
+        page: "1",
+        pageSize: "5",
+      },
+    };
   },
 
-  async created () {
-    this.getOrgTreeAPI()
-    await this.getOrgDetail(this.defaultKey)
-    await this.getEmployeeList()
+  async created() {
+    this.getOrgTreeAPI();
+    await this.getOrgDetail(this.defaultKey);
+    await this.getEmployeeList();
   },
 
   methods: {
-    async getOrgTreeAPI () {
-      const { data } = await getOrgTreeAPI()
+    async getOrgTreeAPI() {
+      const { data } = await getOrgTreeAPI();
       // console.log(JSON.parse(data.data))
-      this.treeData = JSON.parse(data.data)
+      this.treeData = JSON.parse(data.data);
     },
 
-    async getOrgDetail (id) {
-      const { data } = await getOrgDetailAPI(id)
-      this.orgForm = data.data
+    async getOrgDetail(id) {
+      const { data } = await getOrgDetailAPI(id);
+      this.orgForm = data.data;
       // console.log(data.data)
       const res = await Promise.all([
         getAreasAPI(),
         getAreasByIdAPI(this.orgForm.province.id),
-        getAreasByIdAPI(this.orgForm.city.id)
-      ])
+        getAreasByIdAPI(this.orgForm.city.id),
+      ]);
       const {
-        data: { data: provinceList }
-      } = res[0]
+        data: { data: provinceList },
+      } = res[0];
       // console.log(provinceList)
-      this.provinceList = provinceList
+      this.provinceList = provinceList;
       const {
-        data: { data: cityList }
-      } = res[1]
+        data: { data: cityList },
+      } = res[1];
       // console.log(cityList)
-      this.cityList = cityList
+      this.cityList = cityList;
       const {
-        data: { data: countyList }
-      } = res[2]
+        data: { data: countyList },
+      } = res[2];
       // console.log(countyList)
-      this.countyList = countyList
+      this.countyList = countyList;
 
-      this.employeeListParams.agencyId = this.orgForm.id
+      this.employeeListParams.agencyId = this.orgForm.id;
     },
 
-    handleNodeClick (data) {
-      this.getOrgDetail(data.id)
+    handleNodeClick(data) {
+      this.getOrgDetail(data.id);
+      this.getEmployeeList();
     },
-    handleBtnClick () {
-      this.isEdit = !this.isEdit
+    handleBtnClick() {
+      this.isEdit = !this.isEdit;
     },
 
-    async getEmployeeList () {
-      const { data: { data: { items } } } = await getEmployeeListAPI(this.employeeListParams)
-      console.log(items)
-      this.employeeList = items
-    }
-  }
-}
+    async getEmployeeList() {
+      const {
+        data: {
+          data: { items },
+        },
+      } = await getEmployeeListAPI(this.employeeListParams);
+      console.log(items);
+      this.employeeList = items;
+    },
+
+    agencyFormatter(row, column, cellValue) {
+      return cellValue.name;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -349,5 +383,20 @@ export default {
 ::v-deep .el-form-item__label {
   color: #20232a;
   font-weight: 700;
+}
+
+.tableColumn-status {
+  display: flex;
+  align-items: center;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    margin-right: 6px;
+    background: #1dc779;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
 }
 </style>
