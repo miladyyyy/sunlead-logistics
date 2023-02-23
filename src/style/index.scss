@@ -28,8 +28,18 @@ html {
 .el-tooltip__popper.is-light {
   padding: 20px !important;
   box-shadow: 0 1px 5px 3px rgb(0 0 0 / 7%);
-  
-  &,.popper__arrow  {
+
+  &,
+  .popper__arrow {
     border: none !important;
   }
 }
+
+.el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
+  background: #fff;
+  color: #ff7a63 !important;
+}
+
+// .el-tree-node.is-expanded > .el-tree-node__children .el-tree-node__label{
+//   font-size: 12px ;
+// }

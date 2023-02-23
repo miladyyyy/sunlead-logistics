@@ -6,3 +6,20 @@ export function getMenusAPI () {
     url: '/menus'
   })
 }
+
+// 获取地址信息
+export function getAreasAPI () {
+  return request({
+    method: 'GET',
+    url: '/areas/children'
+  })
+}
+
+// 根据父id获取地址信息
+export function getAreasByIdAPI (id) {
+  return request({
+    method: 'GET',
+    url: '/areas/children',
+    params: { parentId: id }
+  })
+}

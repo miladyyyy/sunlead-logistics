@@ -2,17 +2,14 @@ import {
   getToken,
   setToken,
   removeToken,
-  setTime,
-  setUser,
-  removeUser,
-  getUser
+  setTime
 } from '@/utils/storage'
 
 export default {
   namespaced: true,
   state: {
     token: getToken(),
-    user: getUser(),
+    user: {},
     expire: 0,
     menu: null
   },
@@ -23,17 +20,13 @@ export default {
       state.expire = 0
       removeToken()
     },
-    removeUser (state) {
-      state.user = {}
-      removeUser()
-    },
+
     handleLogin (state, data) {
       state.token = data.token.token
       state.expire = data.token.expire
       state.user = data.user
       setToken(data.token.token)
       setTime(Date.now())
-      setUser(data.user)
     },
     setMenu (state, menu) {
       state.menu = menu
@@ -43,7 +36,6 @@ export default {
   actions: {
     logoutAction (contex) {
       contex.commit('removeToken')
-      contex.commit('removeUser')
     }
   }
 }

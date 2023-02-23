@@ -78,7 +78,7 @@ export default {
   },
 
   created () {
-    console.log(this.$route)
+    // console.log(this.$route)
     this.getMenus()
   },
 
@@ -95,7 +95,7 @@ export default {
 
     logout () {
       this.$store.dispatch('user/logoutAction')
-      this.$router.push('/logout')
+      this.$router.push('/login')
     }
   }
 }
@@ -180,7 +180,7 @@ export default {
 }
 
 .el-main{
-   background-color: pink;
+  //  background-color: pink;
   min-height: 100vh;
   position: relative;
   margin-left: 227px;

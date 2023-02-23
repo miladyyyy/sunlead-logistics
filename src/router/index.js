@@ -18,6 +18,7 @@ const routes = [
       },
       {
         path: 'branches',
+        component: () => import('@/views/branches'),
         redirect: 'operational',
         children: [
           {
