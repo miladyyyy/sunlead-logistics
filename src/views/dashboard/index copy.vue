@@ -77,12 +77,7 @@
     <el-row :gutter="20" class="row-2">
       <el-col :span="14">
         <DashboardCard title="待办任务">
-          <div class="chartRow-1" >
-            <div class="chartBox" ref="chartBox_1"></div>
-            <div class="chartBox" ref="chartBox_2"></div>
-            <div class="chartBox" ref="chartBox_3"></div>
-            <div class="chartBox" ref="chartBox_4"></div>
-          </div>
+          <div ref="chartBox" style="height:208px;width=100%"></div>
         </DashboardCard>
       </el-col>
       <el-col :span="10">
@@ -96,7 +91,7 @@ import DashboardCard from "./components/dashboard-card.vue";
 import { getWorkspaceAPI } from "@/api";
 import * as echarts from "echarts";
 import "echarts-liquidfill";
-import {optin_1} from '@/echarts/echarts-options'
+// import '@/echarts-script/echarts-liquidfill.min.js'
 
 export default {
   components: { DashboardCard },
@@ -116,11 +111,72 @@ export default {
   },
 
   mounted() {
-    echarts.init(this.$refs.chartBox_1).setOption(optin_1);
-    echarts.init(this.$refs.chartBox_2).setOption(optin_1);
-    echarts.init(this.$refs.chartBox_3).setOption(optin_1);
-    echarts.init(this.$refs.chartBox_4).setOption(optin_1);
-    
+    const myChart = echarts.init(this.$refs.chartBox);
+    myChart.setOption({
+      title: {
+        text: "67%",
+        textStyle: {
+          fontSize: 20,
+          fontFamily: "Microsoft Yahei",
+          fontWeight: "normal",
+          color: "#000",
+          rich: {
+            a: {
+              fontSize: 28,
+            },
+          },
+        },
+        x: "center",
+        y: "center",
+      },
+
+      series: [
+        {
+          type: "liquidFill",
+          radius: "80%",
+          center: ["50%", "50%"],
+          //  shape: 'roundRect',
+          amplitude: 20, //水波振幅
+          data: [0.5,0.5],
+          backgroundStyle: {
+            borderColor: "#fbe6e1", // 背景内边框
+            color: "#fbe6e1", // 背景颜色
+          },
+          outline: {
+            borderDistance: 13,
+            itemStyle: {
+              borderWidth: 1,
+              borderColor: "#d36548",
+            },
+          },
+          color: {
+            type: "linear",
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              {
+                offset: 1,
+                color: "#d36548",
+              },
+              {
+                offset: 0.5,
+                color: "#d36548",
+              },
+              {
+                offset: 0,
+                color: "#d36548",
+              },
+            ],
+            globalCoord: false,
+          },
+          label: {
+            formatter: "",
+          },
+        },
+      ],
+    });
   },
 
   methods: {
@@ -241,15 +297,6 @@ export default {
     ::v-deep .el-card {
       height: 290px;
     }
-  }
-}
-
-.chartRow-1{
-  display: flex;
-  height: 208px;
-
-  .chartBox {
-    width: 25%;
   }
 }
 </style>
