@@ -7,6 +7,13 @@ export function getMenusAPI () {
   })
 }
 
+export function getWorkspaceAPI () {
+  return request({
+    method: 'GET',
+    url: '/workspace'
+  })
+}
+
 // 获取地址信息
 export function getAreasAPI () {
   return request({

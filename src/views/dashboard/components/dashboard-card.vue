@@ -46,6 +46,7 @@ export default {
 .card-header {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 20px;
 
   span {
     font-size: 14px;

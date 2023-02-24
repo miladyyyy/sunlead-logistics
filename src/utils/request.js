@@ -14,7 +14,7 @@ function isExpired () {
 
 const request = axios.create({
   baseURL: 'https://slwl-geteway.itheima.net/manager',
-  timeout: 5000
+  timeout: 30000
 })
 
 // 请求拦截器

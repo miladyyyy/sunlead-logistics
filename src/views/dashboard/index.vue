@@ -1,46 +1,227 @@
 <template>
   <div class="app-container">
-    <el-row :gutter="20">
+    <el-row :gutter="20" class="row-1">
       <el-col :span="14">
         <DashboardCard title="机构概述">
           <div class="content">
             <div class="content-left">
-              <div class="address">地址：</div>
-              <div class="principal">负责人</div>
+              <div class="org-name">
+                {{ dashboard.organOverview?.organName }}
+              </div>
+              <div class="address">
+                地址：{{ dashboard.organOverview?.organAddress }}
+              </div>
+              <div class="principal">
+                负责人：{{ dashboard.organOverview?.principal }}
+                {{ dashboard.organOverview?.phone }}
+              </div>
               <el-button>查看营业部分布</el-button>
             </div>
             <!-- <el-divider class="divider" direction="vertical"></el-divider> -->
-            <div class="content-right"></div>
+            <div class="content-right">
+              <div class="data-box">
+                <div class="label">分拣中心(个)</div>
+                <div class="num">
+                  {{ dashboard.organOverview?.sortingCenterNumber }}
+                </div>
+              </div>
+              <div class="data-box">
+                <div class="label">营业部(个)</div>
+                <div class="num">
+                  {{ dashboard.organOverview?.agencyNumber }}
+                </div>
+              </div>
+              <div class="data-box">
+                <div class="label">司机人数(个)</div>
+                <div class="num">
+                  {{ dashboard.organOverview?.driverNumber }}
+                </div>
+              </div>
+              <div class="data-box">
+                <div class="label">快递员人数(个)</div>
+                <div class="num">
+                  {{ dashboard.organOverview?.courierNumber }}
+                </div>
+              </div>
+            </div>
           </div>
         </DashboardCard>
       </el-col>
-      <el-col :span="10"></el-col>
+      <el-col :span="10">
+        <DashboardCard title="今日数据">
+          <el-row type="flex" justify="space-around">
+            <div class="today-data-box">
+              <div class="label">订单金额(元)</div>
+              <div class="num">{{ dashboard.todayData?.orderAmount }}</div>
+              <div class="bottom">较昨日 +342</div>
+            </div>
+            <div class="today-data-box">
+              <div class="label">订单数量(笔)</div>
+              <div class="num">{{ dashboard.todayData?.orderNumber }}</div>
+              <div class="bottom">较昨日 +342</div>
+            </div>
+            <div class="today-data-box">
+              <div class="label">运输任务(次)</div>
+              <div class="num">
+                {{ dashboard.todayData?.transportTaskNumber }}
+              </div>
+              <div class="bottom">
+                较昨日 {{ dashboard.todayData?.orderAmountChanges }}
+              </div>
+            </div>
+          </el-row>
+        </DashboardCard>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="20" class="row-2">
+      <el-col :span="14">
+        <DashboardCard title="待办任务">
+          <div ref="chartBox" style="height:100%;width=100%"></div>
+        </DashboardCard>
+      </el-col>
+      <el-col :span="10">
+        <DashboardCard title="执行中任务"> </DashboardCard>
+      </el-col>
     </el-row>
   </div>
 </template>
 <script>
 import DashboardCard from './components/dashboard-card.vue'
+import { getWorkspaceAPI } from '@/api'
+import * as echarts from 'echarts'
+import 'echarts-liquidfill'
+// import '@/echarts-script/echarts-liquidfill.min.js'
 
 export default {
   components: { DashboardCard },
-  name: 'DashboardView'
+  name: 'DashboardView',
+
+  data () {
+    return {
+      dashboard: {
+        organOverview: {},
+        todayData: {}
+      }
+    }
+  },
+
+  created () {
+    this.initData()
+  },
+
+  mounted () {
+    const myChart = echarts.init(this.$refs.chartBox)
+    myChart.setOption(
+      {
+        title: {
+          text: '67%',
+          textStyle: {
+            fontSize: 80,
+            fontFamily: 'Microsoft Yahei',
+            fontWeight: 'normal',
+            color: '#000',
+            rich: {
+              a: {
+                fontSize: 28
+              }
+            }
+          },
+          x: 'center',
+          y: '40%'
+        },
+
+        series: [{
+          type: 'liquidFill',
+          radius: '80%',
+          center: ['50%', '50%'],
+          //  shape: 'roundRect',
+          data: [0.5],
+          backgroundStyle: {
+            borderColor: '#fbe6e1', // 背景内边框
+            color: '#fbe6e1' // 背景颜色
+
+          },
+          outline: {
+            borderDistance: 13,
+            itemStyle: {
+              borderWidth: 1,
+              borderColor: '#d36548'
+
+            }
+
+          },
+          color: {
+            type: 'linear',
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [{
+              offset: 1,
+              color: '#d36548'
+            }, {
+              offset: 0.5,
+              color: '#d36548'
+            }, {
+              offset: 0,
+              color: '#d36548'
+            }],
+            globalCoord: false
+          },
+          label: {
+            normal: {
+              formatter: ''
+            }
+          }
+        }]
+      }
+    )
+  },
+
+  methods: {
+    async initData () {
+      const {
+        data: { data }
+      } = await getWorkspaceAPI()
+      this.dashboard = data
+    }
+  }
 }
 </script>
+
 <style lang="scss" scoped>
+.row-1 {
+  height: 235px;
+
+  & > .el-col {
+    height: 100%;
+
+    ::v-deep .el-card {
+      height: 235px;
+    }
+  }
+}
+
 .content {
   display: flex;
   justify-content: space-evenly;
   .content-left {
     flex: 1;
-    padding: 40px 10px 0 10px;
+    padding: 0 10px;
     font-size: 14px;
-    color: #818693;
     border-right: 1px solid #ebeef5;
+    .org-name {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
     .address {
       margin-bottom: 8px;
+      color: #818693;
     }
     .principal {
       margin-bottom: 23px;
+      color: #818693;
     }
     .el-button {
       font-size: 14px;
@@ -48,6 +229,7 @@ export default {
       width: 158px;
       height: 40px;
       background: #ffeeeb;
+      border: 1px solid #f3917c;
       border-radius: 4px;
 
       &:hover {
@@ -58,10 +240,63 @@ export default {
   }
 
   .content-right {
+    display: flex;
     flex: 1;
+    flex-wrap: wrap;
+
+    .data-box {
+      height: 50%;
+      flex: 50%;
+      padding-left: 30px;
+
+      .label {
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      .num {
+        font-size: 32px;
+        font-weight: 700;
+        color: #e15536;
+        cursor: pointer;
+      }
+    }
   }
 }
 .el-divider--vertical {
   height: 100%;
+}
+
+.today-data-box {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .label {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .num {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 10px 0 20px;
+  }
+  .bottom {
+    font-size: 14px;
+    color: #818693;
+  }
+}
+
+.row-2 {
+  height: 290px;
+  margin-top: 20px;
+  & > .el-col {
+    height: 100%;
+
+    ::v-deep .el-card {
+      height: 290px;
+    }
+  }
 }
 </style>

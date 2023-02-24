@@ -1,16 +1,10 @@
 <template>
   <div class="app-container">
     <div class="left-side">
-      <el-tree
-        :data="treeData"
-        :props="defaultProps"
-        @node-click="handleNodeClick"
-        node-key="id"
-        :current-node-key="defaultKey"
-        :default-expanded-keys="[defaultKey]"
-        :highlight-current="true"
-        :expand-on-click-node="false"
-      ></el-tree>
+      <AreasTree
+        @getOrgDetail="getOrgDetail"
+        @getEmployeeList="getEmployeeList"
+      />
     </div>
     <div class="right-side">
       <div class="organization-info">
@@ -62,6 +56,9 @@
                       <el-select
                         placeholder="请选择省"
                         v-model="orgForm.province.id"
+                        @change="changeProvince"
+                        clearable
+                        @clear="clearProvince"
                       >
                         <el-option
                           v-for="item in provinceList"
@@ -75,6 +72,9 @@
                       <el-select
                         placeholder="请选择市"
                         v-model="orgForm.city.id"
+                        @change="changeCity"
+                        clearable
+                        @clear="clearCity"
                       >
                         <el-option
                           v-for="item in cityList"
@@ -88,6 +88,7 @@
                       <el-select
                         placeholder="请选择县/区"
                         v-model="orgForm.county.id"
+                        clearable
                       >
                         <el-option
                           v-for="item in countyList"
@@ -184,6 +185,16 @@
               </template>
             </el-table-column>
           </el-table>
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="employeeListParams.page"
+            :page-sizes="[5, 10, 20, 40]"
+            :page-size="employeeListParams.pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+          >
+          </el-pagination>
         </el-card>
       </div>
       <div class="employee-info"></div>
@@ -191,12 +202,9 @@
   </div>
 </template>
 <script>
-import {
-  getOrgTreeAPI,
-  getOrgDetailAPI,
-  getEmployeeListAPI,
-} from "@/api/organization";
-import { getAreasAPI, getAreasByIdAPI } from "@/api/index";
+import { getOrgDetailAPI, getEmployeeListAPI } from '@/api/organization'
+import { getAreasAPI, getAreasByIdAPI } from '@/api/index'
+import AreasTree from '@/components/areas-tree.vue'
 
 // const orgTypeMap = new Map()
 // orgTypeMap
@@ -205,59 +213,59 @@ import { getAreasAPI, getAreasByIdAPI } from "@/api/index";
 //   .set(3, '营业部')
 
 export default {
-  name: "organization-manage",
+  components: { AreasTree },
+  name: 'organization-manage',
   filters: {
-    statusFilter(value) {
-      return value === 1 ? "正常" : "异常";
-    },
+    statusFilter (value) {
+      return value === 1 ? '正常' : '异常'
+    }
   },
-  data() {
+  data () {
     return {
       isEdit: false,
       orgType: [
         {
           value: 1,
-          label: "一级转运中心",
+          label: '一级转运中心'
         },
         {
           value: 2,
-          label: "二级转运中心",
+          label: '二级转运中心'
         },
         {
           value: 3,
-          label: "营业部",
-        },
+          label: '营业部'
+        }
       ],
-      treeData: [],
-      defaultProps: { label: "name" },
-      defaultKey: "1024985129287809409",
+      // treeData: [],
+
       orgForm: {
-        address: "",
+        address: '',
         province: {
-          id: "",
-          lat: "",
-          lng: "",
+          id: '',
+          lat: '',
+          lng: '',
           mutiPoints: null,
-          name: "",
+          name: ''
         },
 
         city: {
-          id: "",
-          lat: "",
-          lng: "",
+          id: '',
+          lat: '',
+          lng: '',
           mutiPoints: null,
-          name: "",
+          name: ''
         },
 
         county: {
-          id: "",
-          latitude: "",
-          longitude: "",
-          managerName: "",
-          name: "",
+          id: '',
+          latitude: '',
+          longitude: '',
+          managerName: '',
+          name: ''
         },
-        phone: "",
-        type: null,
+        phone: '',
+        type: null
       },
       provinceList: [],
       cityList: [],
@@ -267,82 +275,113 @@ export default {
 
       employeeListParams: {
         agencyId: null,
-        page: "1",
-        pageSize: "5",
+        page: 1,
+        pageSize: 5
       },
-    };
+      total: 0
+    }
   },
 
-  async created() {
-    this.getOrgTreeAPI();
-    await this.getOrgDetail(this.defaultKey);
-    await this.getEmployeeList();
+  async created () {
+    await this.getOrgDetail(this.defaultKey)
+    await this.getEmployeeList()
   },
 
   methods: {
-    async getOrgTreeAPI() {
-      const { data } = await getOrgTreeAPI();
-      // console.log(JSON.parse(data.data))
-      this.treeData = JSON.parse(data.data);
+    async getOrgDetail (id) {
+      try {
+        const { data } = await getOrgDetailAPI(id)
+        this.orgForm = data.data
+        // console.log(data.data)
+        const res = await Promise.all([
+          getAreasAPI(),
+          getAreasByIdAPI(this.orgForm.province.id),
+          getAreasByIdAPI(this.orgForm.city.id)
+        ])
+        const {
+          data: { data: provinceList }
+        } = res[0]
+        // console.log(provinceList)
+        this.provinceList = provinceList
+        const {
+          data: { data: cityList }
+        } = res[1]
+        // console.log(cityList)
+        this.cityList = cityList
+        const {
+          data: { data: countyList }
+        } = res[2]
+        // console.log(countyList)
+        this.countyList = countyList
+
+        this.employeeListParams.agencyId = this.orgForm.id
+      } catch (error) {
+        this.$message.error('获取机构信息失败')
+      }
     },
 
-    async getOrgDetail(id) {
-      const { data } = await getOrgDetailAPI(id);
-      this.orgForm = data.data;
-      // console.log(data.data)
-      const res = await Promise.all([
-        getAreasAPI(),
-        getAreasByIdAPI(this.orgForm.province.id),
-        getAreasByIdAPI(this.orgForm.city.id),
-      ]);
+    handleBtnClick () {
+      this.isEdit = !this.isEdit
+    },
+
+    async changeProvince (provinceId) {
       const {
-        data: { data: provinceList },
-      } = res[0];
-      // console.log(provinceList)
-      this.provinceList = provinceList;
+        data: { data }
+      } = await getAreasByIdAPI(provinceId)
+      if (this.orgForm.province.id) this.cityList = data
+      this.orgForm.city.id = ''
+      this.orgForm.county.id = ''
+    },
+
+    async changeCity (cityId) {
       const {
-        data: { data: cityList },
-      } = res[1];
-      // console.log(cityList)
-      this.cityList = cityList;
-      const {
-        data: { data: countyList },
-      } = res[2];
-      // console.log(countyList)
-      this.countyList = countyList;
-
-      this.employeeListParams.agencyId = this.orgForm.id;
+        data: { data }
+      } = await getAreasByIdAPI(cityId)
+      this.countyList = data
+      this.orgForm.county.id = ''
     },
 
-    handleNodeClick(data) {
-      this.getOrgDetail(data.id);
-      this.getEmployeeList();
-    },
-    handleBtnClick() {
-      this.isEdit = !this.isEdit;
+    clearProvince () {
+      this.cityList = []
+      this.countyList = []
     },
 
-    async getEmployeeList() {
+    clearCity () {
+      this.countyList = []
+    },
+
+    async getEmployeeList () {
       const {
         data: {
-          data: { items },
-        },
-      } = await getEmployeeListAPI(this.employeeListParams);
-      console.log(items);
-      this.employeeList = items;
+          data: { items, counts }
+        }
+      } = await getEmployeeListAPI(this.employeeListParams)
+      // console.log(items)
+      this.employeeList = items
+      this.total = +counts
     },
 
-    agencyFormatter(row, column, cellValue) {
-      return cellValue.name;
+    agencyFormatter (row, column, cellValue) {
+      return cellValue.name
     },
-  },
-};
+
+    handleSizeChange (newSize) {
+      // console.log(newSize)
+      this.employeeListParams.pageSize = newSize
+      this.getEmployeeList()
+    },
+
+    handleCurrentChange (newPage) {
+      this.employeeListParams.page = newPage
+      this.getEmployeeList()
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
 .app-container {
   display: flex;
-  min-height: 800px;
   .left-side {
     padding: 9px;
     background-color: #fff;
@@ -390,7 +429,7 @@ export default {
   align-items: center;
 
   &::before {
-    content: '';
+    content: "";
     display: inline-block;
     margin-right: 6px;
     background: #1dc779;
