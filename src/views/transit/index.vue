@@ -1,11 +1,11 @@
 <template>
-  <div class="app-container">
-
-  </div>
+    <div>
+       <router-view/>
+    </div>
 </template>
 <script>
 export default {
-  name: 'freight-manage'
+  name: 'TransitView'
 }
 </script>
 <style lang="scss" scoped>

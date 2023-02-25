@@ -4,10 +4,13 @@ import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
 
+import components from './components'
+
 import '@/style/index.scss'
 // import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.use(ElementUI)
+Vue.use(components)
 Vue.config.productionTip = false
 
 new Vue({

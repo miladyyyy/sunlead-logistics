@@ -46,6 +46,7 @@ const routes = [
 
       {
         path: 'transit',
+        component: () => import('@/views/transit'),
         redirect: 'car-models',
         children: [
           {

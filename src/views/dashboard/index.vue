@@ -92,46 +92,45 @@
   </div>
 </template>
 <script>
-import DashboardCard from "./components/dashboard-card.vue";
-import { getWorkspaceAPI } from "@/api";
-import * as echarts from "echarts";
-import "echarts-liquidfill";
-import {optin_1} from '@/echarts/echarts-options'
+import DashboardCard from './components/dashboard-card.vue'
+import { getWorkspaceAPI } from '@/api'
+import * as echarts from 'echarts'
+import 'echarts-liquidfill'
+import { optin1 } from '@/echarts/echarts-options'
 
 export default {
   components: { DashboardCard },
-  name: "DashboardView",
+  name: 'DashboardView',
 
-  data() {
+  data () {
     return {
       dashboard: {
         organOverview: {},
-        todayData: {},
-      },
-    };
+        todayData: {}
+      }
+    }
   },
 
-  created() {
-    this.initData();
+  created () {
+    this.initData()
   },
 
-  mounted() {
-    echarts.init(this.$refs.chartBox_1).setOption(optin_1);
-    echarts.init(this.$refs.chartBox_2).setOption(optin_1);
-    echarts.init(this.$refs.chartBox_3).setOption(optin_1);
-    echarts.init(this.$refs.chartBox_4).setOption(optin_1);
-    
+  mounted () {
+    echarts.init(this.$refs.chartBox_1).setOption(optin1)
+    echarts.init(this.$refs.chartBox_2).setOption(optin1)
+    echarts.init(this.$refs.chartBox_3).setOption(optin1)
+    echarts.init(this.$refs.chartBox_4).setOption(optin1)
   },
 
   methods: {
-    async initData() {
+    async initData () {
       const {
-        data: { data },
-      } = await getWorkspaceAPI();
-      this.dashboard = data;
-    },
-  },
-};
+        data: { data }
+      } = await getWorkspaceAPI()
+      this.dashboard = data
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -87,70 +87,70 @@
   </div>
 </template>
 <script>
-import DashboardCard from "./components/dashboard-card.vue";
-import { getWorkspaceAPI } from "@/api";
-import * as echarts from "echarts";
-import "echarts-liquidfill";
+import DashboardCard from './components/dashboard-card.vue'
+import { getWorkspaceAPI } from '@/api'
+import * as echarts from 'echarts'
+import 'echarts-liquidfill'
 // import '@/echarts-script/echarts-liquidfill.min.js'
 
 export default {
   components: { DashboardCard },
-  name: "DashboardView",
+  name: 'DashboardView',
 
-  data() {
+  data () {
     return {
       dashboard: {
         organOverview: {},
-        todayData: {},
-      },
-    };
+        todayData: {}
+      }
+    }
   },
 
-  created() {
-    this.initData();
+  created () {
+    this.initData()
   },
 
-  mounted() {
-    const myChart = echarts.init(this.$refs.chartBox);
+  mounted () {
+    const myChart = echarts.init(this.$refs.chartBox)
     myChart.setOption({
       title: {
-        text: "67%",
+        text: '67%',
         textStyle: {
           fontSize: 20,
-          fontFamily: "Microsoft Yahei",
-          fontWeight: "normal",
-          color: "#000",
+          fontFamily: 'Microsoft Yahei',
+          fontWeight: 'normal',
+          color: '#000',
           rich: {
             a: {
-              fontSize: 28,
-            },
-          },
+              fontSize: 28
+            }
+          }
         },
-        x: "center",
-        y: "center",
+        x: 'center',
+        y: 'center'
       },
 
       series: [
         {
-          type: "liquidFill",
-          radius: "80%",
-          center: ["50%", "50%"],
+          type: 'liquidFill',
+          radius: '80%',
+          center: ['50%', '50%'],
           //  shape: 'roundRect',
-          amplitude: 20, //水波振幅
-          data: [0.5,0.5],
+          amplitude: 20, // 水波振幅
+          data: [0.5, 0.5],
           backgroundStyle: {
-            borderColor: "#fbe6e1", // 背景内边框
-            color: "#fbe6e1", // 背景颜色
+            borderColor: '#fbe6e1', // 背景内边框
+            color: '#fbe6e1' // 背景颜色
           },
           outline: {
             borderDistance: 13,
             itemStyle: {
               borderWidth: 1,
-              borderColor: "#d36548",
-            },
+              borderColor: '#d36548'
+            }
           },
           color: {
-            type: "linear",
+            type: 'linear',
             x: 0,
             y: 0,
             x2: 0,
@@ -158,36 +158,36 @@ export default {
             colorStops: [
               {
                 offset: 1,
-                color: "#d36548",
+                color: '#d36548'
               },
               {
                 offset: 0.5,
-                color: "#d36548",
+                color: '#d36548'
               },
               {
                 offset: 0,
-                color: "#d36548",
-              },
+                color: '#d36548'
+              }
             ],
-            globalCoord: false,
+            globalCoord: false
           },
           label: {
-            formatter: "",
-          },
-        },
-      ],
-    });
+            formatter: ''
+          }
+        }
+      ]
+    })
   },
 
   methods: {
-    async initData() {
+    async initData () {
       const {
-        data: { data },
-      } = await getWorkspaceAPI();
-      this.dashboard = data;
-    },
-  },
-};
+        data: { data }
+      } = await getWorkspaceAPI()
+      this.dashboard = data
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
