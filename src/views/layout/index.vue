@@ -138,7 +138,7 @@ export default {
 .app-headerbar {
   background-color: #fff;
   position: fixed;
-  z-index: 2023;
+  z-index: 100;
   top: 0;
   right: 0;
   width: calc(100% - 227px);
