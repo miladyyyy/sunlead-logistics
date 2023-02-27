@@ -72,7 +72,12 @@ const routes = [
           {
             path: 'workArrange-manage',
             component: () => import('@/views/transit/workArrange-manage')
-          }
+          },
+          {
+            path: 'car-register-info',
+            component: () => import('@/views/transit/car-register/components/car-register-info')
+          },
+
         ]
       }
     ]
