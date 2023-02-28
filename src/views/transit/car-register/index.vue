@@ -50,7 +50,11 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="车辆是否可用:" prop="isAvailable">
-            <el-select v-model="searchForm.isAvailable" clearable style="width: 100%">
+            <el-select
+              v-model="searchForm.isAvailable"
+              clearable
+              style="width: 100%"
+            >
               <el-option label="全部" :value="null"></el-option>
               <el-option label="可用" :value="true"></el-option>
               <el-option label="不可用" :value="false"></el-option>
@@ -81,8 +85,17 @@
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" width="110" fixed="right">
-          <template #default="{row}">
-            <el-link :underline="false" type="primary" style="color: #419eff" @click="$router.push({ path: 'car-register-info', query: { id: row.id }})"
+          <template #default="{ row }">
+            <el-link
+              :underline="false"
+              type="primary"
+              style="color: #419eff"
+              @click="
+                $router.push({
+                  path: 'car-register-info',
+                  query: { id: row.id },
+                })
+              "
               >查看</el-link
             >
           </template>
@@ -112,109 +125,109 @@
   </div>
 </template>
 <script>
-import { getOrgTreeAPI } from "@/api/organization";
-import { searchTruckReturnListAPI } from "@/api/truck-return-register";
+import { getOrgTreeAPI } from '@/api/organization'
+import { searchTruckReturnListAPI } from '@/api/truck-return-register'
 
 // import the component
-import TreeSelect from "@riophae/vue-treeselect";
+import TreeSelect from '@riophae/vue-treeselect'
 // import the styles
-import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 export default {
-  name: "car-register",
+  name: 'car-register',
   components: { TreeSelect },
-  data() {
+  data () {
     return {
       treeData: [],
       loading: false,
       searchForm: {
-        transportTaskId: "", // 运输任务id
+        transportTaskId: '', // 运输任务id
         startAgencyId: null, // 起始机构id
         endAgencyId: null, // 结束机构id
         intoStorageTime: null, // 回车时间
-        isAvailable: "", // 车辆是否可用
+        isAvailable: '' // 车辆是否可用
       },
 
       tableData: [],
 
       pageParams: {
         page: 1,
-        pageSize: 10,
+        pageSize: 10
       },
-      total: 0,
-    };
+      total: 0
+    }
   },
 
-  created() {
-    this.getOrgTree();
-    this.searchTruckReturnList();
+  created () {
+    this.getOrgTree()
+    this.searchTruckReturnList()
   },
 
   methods: {
-    normalizer(node) {
+    normalizer (node) {
       if (node.children && !node.children.length) {
-        delete node.children;
+        delete node.children
       }
       return {
         id: node.id,
         label: node.name,
-        children: node.children,
-      };
+        children: node.children
+      }
     },
 
-    async getOrgTree() {
-      const { data } = await getOrgTreeAPI();
-      console.log(JSON.parse(data.data));
-      this.treeData = JSON.parse(data.data);
+    async getOrgTree () {
+      const { data } = await getOrgTreeAPI()
+      console.log(JSON.parse(data.data))
+      this.treeData = JSON.parse(data.data)
     },
 
-    async searchTruckReturnList() {
-      this.loading = true;
+    async searchTruckReturnList () {
+      this.loading = true
 
       try {
         const payload = {
           ...this.pageParams,
-          ...this.searchForm,
-        };
-        payload.intoStorageStartTime = payload?.intoStorageTime?.[0];
-        payload.intoStorageEndTime = payload?.intoStorageTime?.[1];
-        delete payload.intoStorageTime;
+          ...this.searchForm
+        }
+        payload.intoStorageStartTime = payload?.intoStorageTime?.[0]
+        payload.intoStorageEndTime = payload?.intoStorageTime?.[1]
+        delete payload.intoStorageTime
 
         for (const key in payload) {
-          if (["", null, undefined].includes(payload[key])) delete payload[key];
+          if (['', null, undefined].includes(payload[key])) delete payload[key]
         }
 
         const {
           data: {
-            data: { counts, items },
-          },
-        } = await searchTruckReturnListAPI(payload);
-        this.loading = false;
-        this.tableData = items;
+            data: { counts, items }
+          }
+        } = await searchTruckReturnListAPI(payload)
+        this.loading = false
+        this.tableData = items
         // console.log(items)
-        this.total = +counts;
+        this.total = +counts
       } catch (error) {
-        console.error(error);
-        this.loading = false;
+        console.error(error)
+        this.loading = false
       }
     },
 
-    handleSizeChange(newSize) {
-      this.pageParams.pageSize = newSize;
-      this.searchTruckReturnList();
+    handleSizeChange (newSize) {
+      this.pageParams.pageSize = newSize
+      this.searchTruckReturnList()
     },
 
-    handleCurrentChange(newPage) {
-      this.pageParams.page = newPage;
-      this.searchTruckReturnList();
+    handleCurrentChange (newPage) {
+      this.pageParams.page = newPage
+      this.searchTruckReturnList()
     },
 
-    reset() {
-      this.$refs.searchForm.resetFields();
-      this.searchTruckReturnList();
-    },
-  },
-};
+    reset () {
+      this.$refs.searchForm.resetFields()
+      this.searchTruckReturnList()
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .el-col-8 {

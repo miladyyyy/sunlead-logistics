@@ -11,6 +11,6 @@ export function searchTruckReturnListAPI (data) {
 export function getTruckReturnDetailAPI (id) {
   return request({
     method: 'GET',
-    url: `/truck-return-register/detail/${id}`,
+    url: `/truck-return-register/detail/${id}`
   })
 }

@@ -27,3 +27,10 @@ export function searchTruckTypeAPI (params) {
     params
   })
 }
+
+export function getTrukTypeAPI () {
+  return request({
+    method: 'GET',
+    url: '/truckType/simple'
+  })
+}

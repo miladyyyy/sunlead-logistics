@@ -59,28 +59,28 @@
 </template>
 
 <script>
-import { getTruckReturnDetailAPI } from "@/api/truck-return-register";
+import { getTruckReturnDetailAPI } from '@/api/truck-return-register'
 export default {
-  name: "car-register-info",
-  data() {
+  name: 'car-register-info',
+  data () {
     return {
-      detailForm: {},
-    };
+      detailForm: {}
+    }
   },
 
-  created() {
-    this.getTruckReturnDetail();
+  created () {
+    this.getTruckReturnDetail()
   },
 
   methods: {
-    async getTruckReturnDetail() {
+    async getTruckReturnDetail () {
       const {
-        data: { data },
-      } = await getTruckReturnDetailAPI(this.$route.query.id);
-      this.detailForm = data;
-    },
-  },
-};
+        data: { data }
+      } = await getTruckReturnDetailAPI(this.$route.query.id)
+      this.detailForm = data
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

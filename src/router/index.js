@@ -77,6 +77,10 @@ const routes = [
             path: 'car-register-info',
             component: () => import('@/views/transit/car-register/components/car-register-info')
           },
+          {
+            path: 'vehicle-detail',
+            component: () => import('@/views/transit/vehicle/components/vehicle-detail')
+          }
 
         ]
       }
