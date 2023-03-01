@@ -21,3 +21,10 @@ export function getEmployeeListAPI (params) {
     params
   })
 }
+export function searchCourierListAPI (params) {
+  return request({
+    method: 'GET',
+    url: '/business-hall/courier/page',
+    params
+  })
+}

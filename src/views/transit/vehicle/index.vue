@@ -160,7 +160,7 @@
           @current-change="handleCurrentChange"
           :current-page="pageParams.page"
           :page-sizes="[10, 20, 30, 50]"
-          :page-size="pageParams.pageSize"
+          :page-size="pageParams.NpageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
         >

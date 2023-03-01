@@ -125,7 +125,7 @@
   </div>
 </template>
 <script>
-import { getOrgTreeAPI } from '@/api/organization'
+import { getOrgTreeAPI } from '@/api/business-hall'
 import { searchTruckReturnListAPI } from '@/api/truck-return-register'
 
 // import the component

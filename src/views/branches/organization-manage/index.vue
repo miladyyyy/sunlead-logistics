@@ -202,7 +202,7 @@
   </div>
 </template>
 <script>
-import { getOrgDetailAPI, getEmployeeListAPI } from '@/api/organization'
+import { getOrgDetailAPI, getEmployeeListAPI } from '@/api/business-hall'
 import { getAreasAPI, getAreasByIdAPI } from '@/api/index'
 import AreasTree from '@/components/areas-tree.vue'
 

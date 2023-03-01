@@ -83,7 +83,7 @@
           <template #default="{ row }">
             <el-link :underline="false" style="color:#419EFF" @click="handleEdit(row)">编辑</el-link>
             <el-divider direction="vertical" />
-            <el-link :underline="false" type="danger">删除</el-link>
+            <el-link :underline="false" type="danger" @click="handleDelete(row.id)">删除</el-link>
           </template>
         </el-table-column>
       </el-table>
@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import { getAddTempAPI, addTempAPI } from '@/api/freight-manage'
+import { getAddTempAPI, addTempAPI, delTempAPI } from '@/api/freight-manage'
 
 const templateTypeMap = [
   { label: '同城寄', value: 1 },
@@ -121,7 +121,6 @@ export default {
       tempList: [],
       showDialog: false,
       addForm: {
-        // id: null,
         templateType: '',
         transportType: '',
         associatedCityList: ['1'],
@@ -177,12 +176,25 @@ export default {
     handleClose () {
       this.$refs.addForm.resetFields()
       this.showDialog = false
+      this.addForm = {
+        templateType: '',
+        transportType: '',
+        associatedCityList: ['1'],
+        firstWeight: '',
+        continuousWeight: '',
+        lightThrowingCoefficient: ''
+      }
     },
 
     async handleConfirm () {
       await this.$refs.addForm.validate()
-      await addTempAPI(this.addForm)
-      this.$message.success('新增成功')
+      if (this.addForm.id) {
+        await addTempAPI(this.addForm)
+        this.$message.success('修改成功')
+      } else {
+        await addTempAPI(this.addForm)
+        this.$message.success('新增成功')
+      }
       this.handleClose()
       this.getAddTemp()
     },
@@ -197,7 +209,16 @@ export default {
 
     handleEdit (row) {
       this.showDialog = true
-      this.addForm = row
+      this.addForm = {
+        ...row,
+        associatedCityList: row.associatedCityList.map((item) => +item)
+      }
+    },
+
+    async handleDelete (id) {
+      await delTempAPI(id)
+      this.$message.success('删除成功')
+      this.getAddTemp()
     }
   }
 }

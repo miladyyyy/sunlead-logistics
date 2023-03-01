@@ -22,3 +22,11 @@ export function getCountAPI () {
     url: '/count'
   })
 }
+
+export function getTruckDetailAPI (id) {
+  return request({
+    method: 'GET',
+    url: `/truck/${id}`,
+    id
+  })
+}

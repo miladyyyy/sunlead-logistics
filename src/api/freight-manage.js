@@ -15,10 +15,9 @@ export function addTempAPI (data) {
   })
 }
 
-// export function editTempAPI (data) {
-//   return request({
-//     method: 'POST',
-//     url: '/carriages',
-//     data
-//   })
-// }
+export function delTempAPI (id) {
+  return request({
+    method: 'DELETE',
+    url: `/carriages/${id}`
+  })
+}

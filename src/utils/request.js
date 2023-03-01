@@ -13,7 +13,7 @@ function isExpired () {
 }
 
 const request = axios.create({
-  baseURL: 'https://slwl-geteway-t.itheima.net/manager',
+  baseURL: 'https://slwl-geteway.itheima.net/manager',
   timeout: 30000
 })
 

@@ -14,7 +14,7 @@
     </div>
 </template>
 <script>
-import { getOrgTreeAPI } from '@/api/organization'
+import { getOrgTreeAPI } from '@/api/business-hall'
 
 export default {
   name: 'AreasTree',
