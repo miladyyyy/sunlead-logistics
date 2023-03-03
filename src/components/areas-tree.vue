@@ -18,6 +18,12 @@ import { getOrgTreeAPI } from '@/api/business-hall'
 
 export default {
   name: 'AreasTree',
+  props: {
+    scope: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       treeData: [],
@@ -38,8 +44,12 @@ export default {
     handleNodeClick (data) {
     //   this.getOrgDetail(data.id)
     //   this.getEmployeeList()
-      this.$emit('getOrgDetail', data.id)
-      this.$emit('getEmployeeList')
+      if (this.scope) {
+        this.$emit('changeNode', data.id)
+      } else {
+        this.$emit('getOrgDetail', data.id)
+        this.$emit('getEmployeeList')
+      }
     }
   }
 }

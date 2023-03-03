@@ -28,3 +28,25 @@ export function searchCourierListAPI (params) {
     params
   })
 }
+
+export function getScopeAPI (id) {
+  return request({
+    method: 'GET',
+    url: `/business-hall/scope/${id}/1`
+  })
+}
+
+export function updateScopeAPI (data) {
+  return request({
+    method: 'POST',
+    url: '/business-hall/courier/scope',
+    data
+  })
+}
+
+export function getCourierScopeAPI (id) {
+  return request({
+    method: 'GET',
+    url: `/business-hall/scope/${id}/2`
+  })
+}

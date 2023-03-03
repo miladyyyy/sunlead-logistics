@@ -40,6 +40,10 @@ const routes = [
           {
             path: 'dispatchTask',
             component: () => import('@/views/branches/dispatchTask')
+          },
+          {
+            path: 'MapContent',
+            component: () => import('@/views/branches/operational-range/components/MapContent')
           }
         ]
       },
@@ -80,6 +84,10 @@ const routes = [
           {
             path: 'vehicle-detail',
             component: () => import('@/views/transit/vehicle/components/vehicle-detail')
+          },
+          {
+            path: 'driver-detail',
+            component: () => import('@/views/transit/driver/components/driver-detail')
           }
 
         ]
