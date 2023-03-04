@@ -88,8 +88,29 @@ const routes = [
           {
             path: 'driver-detail',
             component: () => import('@/views/transit/driver/components/driver-detail')
+          },
+          {
+            path: 'workArrange-setting',
+            component: () => import('@/views/transit/workArrange-manage/components/workArrange-setting.vue')
           }
-
+        ]
+      },
+      {
+        path: 'business',
+        component: () => import('@/views/business'),
+        children: [
+          {
+            path: 'order-manage',
+            component: () => import('@/views/business/order-manage')
+          },
+          {
+            path: 'waybill',
+            component: () => import('@/views/business/waybill')
+          },
+          {
+            path: 'edit-order',
+            component: () => import('@/views/business/order-manage/components/edit-order')
+          }
         ]
       }
     ]
