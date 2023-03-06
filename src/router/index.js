@@ -110,6 +110,29 @@ const routes = [
           {
             path: 'edit-order',
             component: () => import('@/views/business/order-manage/components/edit-order')
+          },
+          {
+            path: 'waybill-detail',
+            component: () => import('@/views/business/waybill/components/waybill-detail.vue')
+          }
+        ]
+      },
+      {
+        path: 'transport',
+        component: () => import('@/views/transport'),
+        redirect: 'transport-task',
+        children: [
+          {
+            path: 'transport-task',
+            component: () => import('@/views/transport/transport-task')
+          },
+          {
+            path: 'line-manage',
+            component: () => import('@/views/transport/line-manage')
+          },
+          {
+            path: 'task-detail',
+            component: () => import('@/views/transport/transport-task/components/task-detail')
           }
         ]
       }

@@ -4,35 +4,60 @@
       <el-form label-width="110px" ref="searchForm" :model="searchForm">
         <el-col :span="8">
           <el-form-item label="订单编号:" prop="id">
-            <el-input placeholder="请输入订单编号" v-model="searchForm.id" clearable/>
+            <el-input
+              placeholder="请输入订单编号"
+              v-model="searchForm.id"
+              clearable
+            />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="订单状态:" prop="status">
-            <el-input placeholder="请输入订单状态" v-model="searchForm.status" clearable/>
+            <el-input
+              placeholder="请输入订单状态"
+              v-model="searchForm.status"
+              clearable
+            />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="付费状态:" prop="paymentStatus">
-            <el-input placeholder="请输入付费状态" v-model="searchForm.paymentStatus" clearable/>
+            <el-input
+              placeholder="请输入付费状态"
+              v-model="searchForm.paymentStatus"
+              clearable
+            />
           </el-form-item>
         </el-col>
 
         <el-col :span="8">
           <el-form-item label="发件人姓名:" prop="senderName">
-            <el-input placeholder="请输入发件人姓名" v-model="searchForm.senderName" clearable/>
+            <el-input
+              placeholder="请输入发件人姓名"
+              v-model="searchForm.senderName"
+              clearable
+            />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="发件人电话:" prop="senderPhone">
-            <el-input placeholder="请输入发件人电话" v-model="searchForm.senderPhone" clearable/>
+            <el-input
+              placeholder="请输入发件人电话"
+              v-model="searchForm.senderPhone"
+              clearable
+            />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="发件人地址:">
             <div class="address-selector">
-              <el-select v-model="searchForm.senderProvinceId" clearable @focus="getProvince('sender')"
-                         @change="getCity($event,'sender')" placeholder="请选择省">
+              <el-select
+                v-model="searchForm.senderProvinceId"
+                clearable
+                @focus="getProvince('sender')"
+                @change="getCity($event, 'sender')"
+                placeholder="请选择省"
+              >
                 <el-option
                   v-for="item in senderAddress.provinceOptions"
                   :key="item.id"
@@ -40,7 +65,12 @@
                   :value="item.id"
                 />
               </el-select>
-              <el-select v-model="searchForm.senderCityId" clearable @change="getCounty($event,'sender')" placeholder="请选择市">
+              <el-select
+                v-model="searchForm.senderCityId"
+                clearable
+                @change="getCounty($event, 'sender')"
+                placeholder="请选择市"
+              >
                 <el-option
                   v-for="item in senderAddress.cityOptions"
                   :key="item.id"
@@ -48,7 +78,11 @@
                   :value="item.id"
                 />
               </el-select>
-              <el-select v-model="searchForm.senderCountyId" clearable placeholder="请选择区/县">
+              <el-select
+                v-model="searchForm.senderCountyId"
+                clearable
+                placeholder="请选择区/县"
+              >
                 <el-option
                   v-for="item in senderAddress.countyOptions"
                   :key="item.id"
@@ -61,19 +95,32 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="收件人姓名:" prop="receiverName">
-            <el-input placeholder="请输入收件人姓名" v-model="searchForm.receiverName" clearable/>
+            <el-input
+              placeholder="请输入收件人姓名"
+              v-model="searchForm.receiverName"
+              clearable
+            />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="收件人电话:" prop="receiverPhone">
-            <el-input placeholder="请输入收件人电话" v-model="searchForm.receiverPhone" clearable/>
+            <el-input
+              placeholder="请输入收件人电话"
+              v-model="searchForm.receiverPhone"
+              clearable
+            />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="收件人地址:">
             <div class="address-selector">
-              <el-select v-model="searchForm.receiverProvinceId" clearable @focus="getProvince('receiver')"
-                         @change="getCity($event,'receiver')" placeholder="请选择省">
+              <el-select
+                v-model="searchForm.receiverProvinceId"
+                clearable
+                @focus="getProvince('receiver')"
+                @change="getCity($event, 'receiver')"
+                placeholder="请选择省"
+              >
                 <el-option
                   v-for="item in receiverAddress.provinceOptions"
                   :key="item.id"
@@ -81,7 +128,12 @@
                   :value="item.id"
                 />
               </el-select>
-              <el-select v-model="searchForm.receiverCityId" clearable @change="getCounty($event,'receiver')" placeholder="请选择市">
+              <el-select
+                v-model="searchForm.receiverCityId"
+                clearable
+                @change="getCounty($event, 'receiver')"
+                placeholder="请选择市"
+              >
                 <el-option
                   v-for="item in receiverAddress.cityOptions"
                   :key="item.id"
@@ -89,7 +141,11 @@
                   :value="item.id"
                 />
               </el-select>
-              <el-select v-model="searchForm.receiverCountyId" clearable placeholder="请选择区/县">
+              <el-select
+                v-model="searchForm.receiverCountyId"
+                clearable
+                placeholder="请选择区/县"
+              >
                 <el-option
                   v-for="item in receiverAddress.countyOptions"
                   :key="item.id"
@@ -109,32 +165,70 @@
 
     <el-card shadow="never" v-loading="loading">
       <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column type="index" width="60" align="center" label="序号"/>
-        <el-table-column prop="id" label="订单编号" width="160px"/>
-        <el-table-column prop="transportOrder.id" label="运单编号" width="130px"/>
-        <el-table-column prop="updated" label="下单时间" width="160px"/>
-        <el-table-column prop="status" label="订单状态" width="90px" :formatter="statusFormatter"/>
-        <el-table-column prop="senderName" label="发件人姓名" width="100px"/>
-        <el-table-column prop="senderPhone" label="发件人电话" width="120px"/>
-        <el-table-column prop="senderAddress" label="发件人地址" width="150px"/>
-        <el-table-column prop="receiverName" label="收件人姓名" width="100px"/>
-        <el-table-column prop="receiverPhone" label="收件人电话" width="120px"/>
-        <el-table-column prop="receiverAddress" label="收件人地址" width="120px"/>
-        <el-table-column prop="pickupType" label="取件类型" width="100px" :formatter="pickupTypeFormatter"/>
-        <el-table-column prop="paymentMethod" label="付费类型" width="100px" :formatter="paymentMethodFormatter"/>
-        <el-table-column prop="paymentStatus" label="付费状态" width="100px" :formatter="pickupPaymentStatus"/>
+        <el-table-column type="index" width="60" align="center" label="序号" />
+        <el-table-column prop="id" label="订单编号" width="160px" />
+        <el-table-column
+          prop="transportOrder.id"
+          label="运单编号"
+          width="130px"
+        />
+        <el-table-column prop="updated" label="下单时间" width="160px" />
+        <el-table-column
+          prop="status"
+          label="订单状态"
+          width="90px"
+          :formatter="statusFormatter"
+        />
+        <el-table-column prop="senderName" label="发件人姓名" width="100px" />
+        <el-table-column prop="senderPhone" label="发件人电话" width="120px" />
+        <el-table-column
+          prop="senderAddress"
+          label="发件人地址"
+          width="150px"
+        />
+        <el-table-column prop="receiverName" label="收件人姓名" width="100px" />
+        <el-table-column
+          prop="receiverPhone"
+          label="收件人电话"
+          width="120px"
+        />
+        <el-table-column
+          prop="receiverAddress"
+          label="收件人地址"
+          width="120px"
+        />
+        <el-table-column
+          prop="pickupType"
+          label="取件类型"
+          width="100px"
+          :formatter="pickupTypeFormatter"
+        />
+        <el-table-column
+          prop="paymentMethod"
+          label="付费类型"
+          width="100px"
+          :formatter="paymentMethodFormatter"
+        />
+        <el-table-column
+          prop="paymentStatus"
+          label="付费状态"
+          width="100px"
+          :formatter="pickupPaymentStatus"
+        />
         <el-table-column label="操作" align="center" width="85px" fixed="right">
-          <template #default="{row}">
-            <el-link :underline="false" style="color: #419eff" @click="toDetail(row)"
-            >查看详情
-            </el-link
-            >
+          <template #default="{ row }">
+            <el-link
+              :underline="false"
+              style="color: #419eff"
+              @click="toDetail(row)"
+              >查看详情
+            </el-link>
           </template>
         </el-table-column>
 
         <template #empty>
           <div class="empty-box">
-            <img class="empty-img" src="@/assets/img/icon-empty.png" alt="">
+            <img class="empty-img" src="@/assets/img/icon-empty.png" alt="" />
             <span class="empty-txt">没有找到您要的内容哦~</span>
           </div>
         </template>
@@ -156,7 +250,6 @@
   </div>
 </template>
 <script>
-
 import { searchOrderListAPI } from '@/api/order-manager'
 import { getAreasAPI, getAreasByIdAPI } from '@/api'
 
@@ -213,21 +306,29 @@ export default {
 
   methods: {
     async getProvince (type) {
-      const { data: { data } } = await getAreasAPI()
+      const {
+        data: { data }
+      } = await getAreasAPI()
       if (type === 'sender') {
         this.senderAddress.provinceOptions = data
-      } else if (type === 'receiver') this.receiverAddress.provinceOptions = data
+      } else if (type === 'receiver') {
+        this.receiverAddress.provinceOptions = data
+      }
     },
 
     async getCity (id, type) {
-      const { data: { data } } = await getAreasByIdAPI(id)
+      const {
+        data: { data }
+      } = await getAreasByIdAPI(id)
       if (type === 'sender') {
         this.senderAddress.cityOptions = data
       } else if (type === 'receiver') this.receiverAddress.cityOptions = data
     },
 
     async getCounty (id, type) {
-      const { data: { data } } = await getAreasByIdAPI(id)
+      const {
+        data: { data }
+      } = await getAreasByIdAPI(id)
       if (type === 'sender') {
         this.senderAddress.countyOptions = data
       } else if (type === 'receiver') this.receiverAddress.countyOptions = data
@@ -248,10 +349,7 @@ export default {
       try {
         const {
           data: {
-            data: {
-              counts,
-              items
-            }
+            data: { counts, items }
           }
         } = await searchOrderListAPI({
           ...this.pageParams,
@@ -360,7 +458,6 @@ export default {
       }
     }
   }
-
 }
 </script>
 <style lang="scss" scoped>

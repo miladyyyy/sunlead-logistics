@@ -7,3 +7,9 @@ export function searchOrderListAPI (data) {
     data
   })
 }
+export function getOrderDetailAPI (id) {
+  return request({
+    method: 'GET',
+    url: `/order-manager/order/${id}`
+  })
+}
