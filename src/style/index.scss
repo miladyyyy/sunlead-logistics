@@ -13,7 +13,7 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB,
-    Microsoft YaHei, Arial, sans-serif;
+  Microsoft YaHei, Arial, sans-serif;
 }
 
 html {
@@ -35,7 +35,7 @@ html {
   }
 }
 
-.el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
+.el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {
   background: #fff;
   color: #ff7a63 !important;
 }
@@ -43,3 +43,40 @@ html {
 // .el-tree-node.is-expanded > .el-tree-node__children .el-tree-node__label{
 //   font-size: 12px ;
 // }
+
+.el-table {
+  color: #20232a;
+  border: 1px solid #ebeef5;
+  border-bottom: 0;
+}
+
+.el-table thead {
+  color: #818693;
+}
+
+.el-table thead tr th {
+  background: #f8faff !important
+}
+
+.el-dialog__header {
+  padding: 15px 30px 15px;
+  background-color: #f3f4f7;
+  border-radius: 8px 8px 0 0;
+}
+
+.el-dialog {
+  transform: none;
+  left: 0;
+  position: relative;
+  margin: auto;
+  border-radius: 8px;
+}
+
+.el-input__suffix-inner {
+  span {
+    color: rgb(32, 35, 42);
+    font-weight: 400;
+    font-size: 14px;
+    margin-right: 14px;
+  }
+}

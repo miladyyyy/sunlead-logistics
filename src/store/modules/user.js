@@ -11,7 +11,7 @@ export default {
     token: getToken(),
     user: {},
     expire: 0,
-    menu: null
+    menu: []
   },
   getters: {},
   mutations: {

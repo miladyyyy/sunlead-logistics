@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LoginView from '@/views/login'
 import LayoutView from '@/views/layout'
+import store from '@/store'
+import { getMenusAPI } from '@/api'
 
 Vue.use(VueRouter)
 
@@ -148,5 +150,31 @@ const routes = [
 const router = new VueRouter({
   routes
 })
+
+// const whitelist = ['/login', '/404']
+
+// router.beforeEach(async (to, from, next) => {
+//   if (store.state.user.user.id) {
+//     if (!store.state.user.menuList.length) {
+//       const { data } = await getMenusAPI()
+//       this.$store.commit('user/setMenu', data.data)
+//       next(to.path)
+//     }
+//     // if (to.path === '/login') next('/')
+//     // else next()
+//   }
+//   // if (store.state.user.user.id) {
+//   //   if (!store.getters.userId) {
+//   //     const { data } = await getMenusAPI()
+//   //
+//   //     next(to.path)
+//   //   }
+//   //   if (to.path === '/login') next('/')
+//   //   else next()
+//   // } else {
+//   //   if (whitelist.includes(to.path)) next()
+//   //   else next('/login')
+//   // }
+// })
 
 export default router

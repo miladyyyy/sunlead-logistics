@@ -69,7 +69,7 @@ export default {
   name: 'LayoutView',
   data () {
     return {
-      menusList: []
+      menusList: this.menu
     }
   },
 
@@ -79,19 +79,18 @@ export default {
 
   created () {
     // console.log(this.$route)
-    this.getMenus()
   },
 
   methods: {
-    async getMenus () {
-      if (this.menu) {
-        this.menusList = this.menu
-      } else {
-        const { data } = await getMenusAPI()
-        this.menusList = data.data
-        this.$store.commit('user/setMenu', data.data)
-      }
-    },
+    // async getMenus () {
+    //   if (this.menu) {
+    //     this.menusList = this.menu
+    //   } else {
+    //     const { data } = await getMenusAPI()
+    //     this.menusList = data.data
+    //     this.$store.commit('user/setMenu', data.data)
+    //   }
+    // },
 
     logout () {
       this.$store.dispatch('user/logoutAction')
@@ -104,7 +103,6 @@ export default {
 <style lang="scss" scoped>
 .app-wrapper {
   position: relative;
-  height: 100%;
   height: 100%;
   min-width: 1366px;
 }

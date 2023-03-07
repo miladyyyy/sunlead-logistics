@@ -81,44 +81,31 @@
       </el-form>
     </PageTool>
 
-    <el-card shadow="never">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="全部" name="1" >
-          <template #label>
-            <span>全部{{ +count['0']+ +count['1'] }}</span>
-          </template>
-        </el-tab-pane>
-        <el-tab-pane label="可用" name="2" >
-          <template #label>
-            <span>可用{{ count['0'] }}</span>
-          </template>
-        </el-tab-pane>
-        <el-tab-pane label="停用" name="3" >
-          <template #label>
-            <span>停用{{ count['1'] }}</span>
-          </template>
-        </el-tab-pane>
-      </el-tabs>
-    </el-card>
+    <tabs-group @tab-click="tabClick" :activeTab="activeTab">
+      <table-item :name="`全部${total}`" :value="-1"></table-item>
+      <table-item :name="`可用${count['1']}`" :value="1"></table-item>
+      <table-item :name="`停用${count['0']}`" :value="0"></table-item>
+    </tabs-group>
 
     <el-card shadow="never" v-loading="loading">
       <template #header>
         <el-button type="primary" @click="handleAdd">新增车型</el-button>
       </template>
       <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column type="index" width="60" align="center" label="序号" />
-        <el-table-column prop="licensePlate" label="车牌号码" />
-        <el-table-column prop="truckTypeName" label="车辆类型" width="150" />
-        <el-table-column prop="driverNum" label="司机数量" width="150" />
+        <el-table-column type="index" width="60" align="center" label="序号"/>
+        <el-table-column prop="licensePlate" label="车牌号码"/>
+        <el-table-column prop="truckTypeName" label="车辆类型" width="150"/>
+        <el-table-column prop="driverNum" label="司机数量" width="150"/>
         <el-table-column prop="workStatus" label="车辆状态" width="150">
           <template #default="{ row }">
             <el-tag size="mini" v-if="row.workStatus === 1" type="success"
-              >可用</el-tag
+            >可用
+            </el-tag
             >
             <el-tag size="mini" v-else type="danger">停用</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="deviceGpsId" label="GPS设备ID" width="150" />
+        <el-table-column prop="deviceGpsId" label="GPS设备ID" width="150"/>
         <el-table-column
           prop="allowableLoad"
           label="实载重量 （T）"
@@ -135,20 +122,21 @@
               :underline="false"
               style="color: #419eff"
               @click="toDetail(row.id)"
-              >查看详情
+            >查看详情
             </el-link>
             <el-divider direction="vertical"></el-divider>
             <el-link :underline="false" style="color: #419eff">启用</el-link>
             <el-divider direction="vertical"></el-divider>
             <el-link :underline="false" style="color: #419eff"
-              >配置司机</el-link
+            >配置司机
+            </el-link
             >
           </template>
         </el-table-column>
 
         <template #empty>
           <div class="empty-box">
-            <img class="empty-img" src="@/assets/img/icon-empty.png" alt="" />
+            <img class="empty-img" src="@/assets/img/icon-empty.png" alt=""/>
             <span class="empty-txt">没有找到您要的内容哦~</span>
           </div>
         </template>
@@ -177,7 +165,7 @@ export default {
   name: 'VehicleView',
   data () {
     return {
-      activeName: '1',
+      activeTab: 1,
       loading: false,
       addForm: {
         truckTypeName: '',
@@ -276,7 +264,10 @@ export default {
     toDetail (id) {
       this.$router.push({
         path: '/transit/vehicle-detail',
-        query: { id, formUrlName: '车辆管理' }
+        query: {
+          id,
+          formUrlName: '车辆管理'
+        }
       })
     },
 
@@ -317,7 +308,10 @@ export default {
         }
         const {
           data: {
-            data: { counts, items }
+            data: {
+              counts,
+              items
+            }
           }
         } = await searchTruckListAPI(payload)
         this.loading = false
@@ -361,27 +355,27 @@ export default {
       this.searchTruckList()
     },
 
-    async handleClick (tab) {
+    async tabClick (value) {
       this.loading = true
-      const nameMap = {
-        1: null,
-        2: 1,
-        3: 0
-      }
       try {
+        this.activeTab = value
+        const statue = value === -1 ? null : value
         const {
           data: {
-            data: { counts, items }
+            data: {
+              counts,
+              items
+            }
           }
         } = await searchTruckListAPI({
           ...this.pageParams,
-          workStatus: nameMap[tab.name]
+          workStatus: statue
         })
-        this.loading = false
         this.tableData = items
         this.total = +counts
       } catch (error) {
-        console.log(error)
+        console.error(error)
+      } finally {
         this.loading = false
       }
     }
@@ -392,19 +386,16 @@ export default {
 .el-col-8 {
   padding: 0 30px;
 }
+
 .el-pagination {
   margin: 20px 0;
-}
-
-.suffix {
-  color: rgb(32, 35, 42);
-  margin-right: 14px;
 }
 
 .empty-box {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   .empty-img {
     width: 336px;
   }
@@ -414,5 +405,8 @@ export default {
     font-size: 14px;
     margin-top: 25px;
   }
+}
+.tabs-group {
+  margin-bottom: 20px;
 }
 </style>
