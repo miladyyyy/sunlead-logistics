@@ -153,28 +153,34 @@ const router = new VueRouter({
 
 // const whitelist = ['/login', '/404']
 
-// router.beforeEach(async (to, from, next) => {
-//   if (store.state.user.user.id) {
-//     if (!store.state.user.menuList.length) {
-//       const { data } = await getMenusAPI()
-//       this.$store.commit('user/setMenu', data.data)
-//       next(to.path)
-//     }
-//     // if (to.path === '/login') next('/')
-//     // else next()
-//   }
-//   // if (store.state.user.user.id) {
-//   //   if (!store.getters.userId) {
-//   //     const { data } = await getMenusAPI()
-//   //
-//   //     next(to.path)
-//   //   }
-//   //   if (to.path === '/login') next('/')
-//   //   else next()
-//   // } else {
-//   //   if (whitelist.includes(to.path)) next()
-//   //   else next('/login')
-//   // }
-// })
+router.beforeEach(async (to, from, next) => {
+  if (store.state.user.token) {
+    if (!store.state.user.menu.length) {
+      const { data: { data } } = await getMenusAPI()
+      store.commit('user/setMenu', data)
+    }
+  } else {
+    if (to.path === '/login') next()
+    else next('/login')
+  }
+  next()
+  // else {
+  //   if (to.path === '/login') next('/')
+  //   else next()
+  // }
+
+  // if (store.state.user.user.id) {
+  //   if (!store.getters.userId) {
+  //     const { data } = await getMenusAPI()
+  //
+  //     next(to.path)
+  //   }
+  //   if (to.path === '/login') next('/')
+  //   else next()
+  // } else {
+  //   if (whitelist.includes(to.path)) next()
+  //   else next('/login')
+  // }
+})
 
 export default router

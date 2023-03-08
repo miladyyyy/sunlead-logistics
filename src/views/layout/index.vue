@@ -69,7 +69,7 @@ export default {
   name: 'LayoutView',
   data () {
     return {
-      menusList: this.menu
+      menusList: []
     }
   },
 
@@ -78,7 +78,7 @@ export default {
   },
 
   created () {
-    // console.log(this.$route)
+    this.menusList = this.menu
   },
 
   methods: {
