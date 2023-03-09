@@ -104,27 +104,33 @@ export default {
       dashboard: {
         organOverview: {},
         todayData: {}
-      }
+      },
+      backlog: {}
     }
   },
-
   created () {
     this.initData()
   },
 
   mounted () {
-    // optionWave.series[0].label.formatter = this.dashboard.backlog.waitingPickupRate
-    // echarts.init(this.$refs.chartBox_1).setOption(optionWave)
+    this.$on('mounted', () => {
+      optionWave.series[0].data[0] = (this.dashboard.backlog.waitingPickupRate) / 100
+      optionWave.series[1].data[0] = (this.dashboard.backlog.waitingDispatchRate) / 100
+      optionWave.series[2].data[0] = (this.dashboard.backlog.unassignedTransportTaskRate) / 100
+      optionWave.series[3].data[0] = (this.dashboard.backlog.timeoutTransportTaskRate) / 100
+      optionWave.series[0].label.formatter = this.dashboard.backlog.waitingPickupRate
+      optionWave.series[1].label.formatter = this.dashboard.backlog.waitingDispatchRate
+      optionWave.series[2].label.formatter = this.dashboard.backlog.unassignedTransportTaskRate
+      optionWave.series[3].label.formatter = this.dashboard.backlog.timeoutTransportTaskRate
+      echarts.init(this.$refs.chartBox_1).setOption(optionWave)
+    })
   },
 
   methods: {
     async initData () {
       const { data: { data } } = await getWorkspaceAPI()
       this.dashboard = data
-      const opt = structuredClone(optionWave)
-      opt.series[0].label.formatter = this.dashboard.backlog.waitingPickupRate
-      console.log(opt.series[0].label.formatter)
-      echarts.init(this.$refs.chartBox_1).setOption(opt)
+      this.$emit('mounted')
     }
   }
 }

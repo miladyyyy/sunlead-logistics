@@ -9,7 +9,7 @@ export const optionWave = {
       radius: '60%', // 显示比例
       center: ['14%', '50%'], // 中心点
       // amplitude: 20, // 水波振幅
-      data: [0.5], // data个数代表波浪数
+      data: [0], // data个数代表波浪数
       color: [
         {
           type: 'linear',
@@ -46,7 +46,7 @@ export const optionWave = {
       label: {
         // 标签设置
         position: ['50%', '45%'],
-        formatter: '50%', // 显示文本,
+        formatter: '0%', // 显示文本,
         fontSize: '18px', // 文本字号,
         fontWeight: 400,
         color: '#000'
@@ -64,7 +64,7 @@ export const optionWave = {
       radius: '60%', // 显示比例
       center: ['38%', '50%'], // 中心点
       // amplitude: 20, // 水波振幅
-      data: [0.5], // data个数代表波浪数
+      data: [0], // data个数代表波浪数
       color: [
         {
           type: 'linear',
@@ -101,7 +101,7 @@ export const optionWave = {
       label: {
         // 标签设置
         position: ['50%', '45%'],
-        formatter: '50%', // 显示文本,
+        formatter: '0%', // 显示文本,
         fontSize: '18px', // 文本字号,
         fontWeight: 400,
         color: '#000'
@@ -119,7 +119,7 @@ export const optionWave = {
       radius: '60%', // 显示比例
       center: ['62%', '50%'], // 中心点
       // amplitude: 20, // 水波振幅
-      data: [0.5], // data个数代表波浪数
+      data: [0], // data个数代表波浪数
       color: [
         {
           type: 'linear',
@@ -156,7 +156,7 @@ export const optionWave = {
       label: {
         // 标签设置
         position: ['50%', '45%'],
-        formatter: '50%', // 显示文本,
+        formatter: '0%', // 显示文本,
         fontSize: '18px', // 文本字号,
         fontWeight: 400,
         color: '#000'
@@ -174,7 +174,7 @@ export const optionWave = {
       radius: '60%', // 显示比例
       center: ['86%', '50%'], // 中心点
       // amplitude: 20, // 水波振幅
-      data: [0.5], // data个数代表波浪数
+      data: [0], // data个数代表波浪数
       color: [
         {
           type: 'linear',
@@ -211,7 +211,7 @@ export const optionWave = {
       label: {
         // 标签设置
         position: ['50%', '45%'],
-        formatter: '50%', // 显示文本,
+        formatter: '0%', // 显示文本,
         fontSize: '18px', // 文本字号,
         fontWeight: 400,
         color: '#000'
