@@ -3,10 +3,10 @@
     <el-container>
       <el-aside class="app-siderbar" width="227px">
         <div class="sidebar-logo-container">
-          <img class="sidebar-logo" src="@/assets/img/logo.png" alt="" />
+          <img class="sidebar-logo" src="@/assets/img/logo.png" alt=""/>
         </div>
         <div class="menu-container">
-          <el-menu router>
+          <el-menu router unique-opened>
             <template v-for="item in menusList">
               <el-submenu
                 v-if="item.children"
@@ -37,18 +37,19 @@
       </el-aside>
       <el-container>
         <el-header class="app-headerbar">
-          <el-row type="flex" justify="space-between">
-            <div>
-              <font>工作台</font>
-            </div>
+          <el-row type="flex" justify="space-between" style="align-items: center">
+            <div class="title" v-if="!$route.meta.hidden">{{$route.meta.title}}</div>
+            <el-page-header v-else @back="$router.back()" :content="$route.meta.title">
+            </el-page-header>
+
             <el-row class="right-menu" type="flex">
               <div class="avatar-wrapper">
-                <img src="@/assets/img/default.jpg" alt="" />
+                <img src="@/assets/img/default.jpg" alt=""/>
                 <span class="username">{{ user.name }}</span>
               </div>
               <el-divider direction="vertical"></el-divider>
               <div class="logout-wrapper" @click="logout">
-                <img src="@/assets/img/logout.png" alt="" />
+                <img src="@/assets/img/logout.png" alt=""/>
               </div>
             </el-row>
           </el-row>
@@ -62,7 +63,6 @@
 </template>
 
 <script>
-import { getMenusAPI } from '@/api'
 import { mapState } from 'vuex'
 
 export default {
@@ -127,6 +127,7 @@ export default {
     overflow: hidden;
     padding: 20px 20px 0;
     margin-bottom: 15px;
+
     .sidebar-logo {
       width: 152px;
     }
@@ -134,7 +135,7 @@ export default {
 }
 
 .app-headerbar {
-  background-color: #fff;
+  //background-color: #fff;
   position: fixed;
   z-index: 100;
   top: 0;
@@ -144,11 +145,6 @@ export default {
   background-color: #f3f5f9;
   padding: 25px 18px 0 18px;
 
-  font {
-    font-size: 16px;
-    color: rgb(42, 41, 41);
-    font-weight: bold;
-  }
   .avatar-wrapper {
     img {
       width: 30px;
@@ -157,11 +153,13 @@ export default {
       vertical-align: middle;
       cursor: pointer;
     }
+
     .username {
       color: #072c56;
       margin-left: 5px;
     }
   }
+
   .logout-wrapper {
     img {
       width: 18px;
@@ -174,15 +172,22 @@ export default {
 .el-menu-item.is-active {
   background: #fafafb;
 }
+
 .el-divider {
   height: 100%;
 }
 
-.el-main{
+.el-main {
   //  background-color: pink;
   min-height: 100vh;
   position: relative;
   margin-left: 227px;
   margin-top: 60px;
+}
+
+::v-deep .el-page-header__content,.title {
+  font-size: 18px;
+  color: #303133;
+  font-weight: bold;
 }
 </style>

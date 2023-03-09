@@ -16,7 +16,11 @@ const routes = [
     children: [
       {
         path: 'dashboard',
-        component: () => import('@/views/dashboard')
+        component: () => import('@/views/dashboard'),
+        meta: {
+          hidden: false,
+          title: '工作台'
+        }
       },
       {
         path: 'branches',
@@ -25,27 +29,52 @@ const routes = [
         children: [
           {
             path: 'organization-manage',
-            component: () => import('@/views/branches/organization-manage')
+            component: () => import('@/views/branches/organization-manage'),
+            meta: {
+              hidden: false,
+              title: '机构管理'
+            }
           },
           {
             path: 'institutions-jobs-area',
-            component: () => import('@/views/branches/institutions-jobs-area')
+            component: () => import('@/views/branches/institutions-jobs-area'),
+            meta: {
+              hidden: false,
+              title: '机构作业范围'
+            }
           },
           {
             path: 'operational-range',
-            component: () => import('@/views/branches/operational-range')
+            component: () => import('@/views/branches/operational-range'),
+            meta: {
+              hidden: false,
+              title: '快递员管理'
+            }
           },
           {
             path: 'pickUptask',
-            component: () => import('@/views/branches/pickUptask')
+            component: () => import('@/views/branches/pickUptask'),
+            meta: {
+              hidden: false,
+              title: '取件作业管理'
+            }
+
           },
           {
             path: 'dispatchTask',
-            component: () => import('@/views/branches/dispatchTask')
+            component: () => import('@/views/branches/dispatchTask'),
+            meta: {
+              hidden: false,
+              title: '派件作业管理'
+            }
           },
           {
             path: 'MapContent',
-            component: () => import('@/views/branches/operational-range/components/MapContent')
+            component: () => import('@/views/branches/operational-range/components/MapContent'),
+            meta: {
+              hidden: true,
+              title: '作业范围分配'
+            }
           }
         ]
       },
@@ -57,43 +86,83 @@ const routes = [
         children: [
           {
             path: 'freight-manage',
-            component: () => import('@/views/transit/freight-manage')
+            component: () => import('@/views/transit/freight-manage'),
+            meta: {
+              hidden: false,
+              title: '运费管理'
+            }
           },
           {
             path: 'car-models',
-            component: () => import('@/views/transit/car-models')
+            component: () => import('@/views/transit/car-models'),
+            meta: {
+              hidden: false,
+              title: '车型管理'
+            }
           },
           {
             path: 'vehicle',
-            component: () => import('@/views/transit/vehicle')
+            component: () => import('@/views/transit/vehicle'),
+            meta: {
+              hidden: false,
+              title: '车辆管理'
+            }
           },
           {
             path: 'car-register',
-            component: () => import('@/views/transit/car-register')
+            component: () => import('@/views/transit/car-register'),
+            meta: {
+              hidden: false,
+              title: '回车登记'
+            }
           },
           {
             path: 'driver',
-            component: () => import('@/views/transit/driver')
+            component: () => import('@/views/transit/driver'),
+            meta: {
+              hidden: false,
+              title: '司机管理'
+            }
           },
           {
             path: 'workArrange-manage',
-            component: () => import('@/views/transit/workArrange-manage')
+            component: () => import('@/views/transit/workArrange-manage'),
+            meta: {
+              hidden: false,
+              title: '排班管理'
+            }
           },
           {
             path: 'car-register-info',
-            component: () => import('@/views/transit/car-register/components/car-register-info')
+            component: () => import('@/views/transit/car-register/components/car-register-info'),
+            meta: {
+              hidden: true,
+              title: '回单查看'
+            }
           },
           {
             path: 'vehicle-detail',
-            component: () => import('@/views/transit/vehicle/components/vehicle-detail')
+            component: () => import('@/views/transit/vehicle/components/vehicle-detail'),
+            meta: {
+              hidden: true,
+              title: '车辆详情'
+            }
           },
           {
             path: 'driver-detail',
-            component: () => import('@/views/transit/driver/components/driver-detail')
+            component: () => import('@/views/transit/driver/components/driver-detail'),
+            meta: {
+              hidden: true,
+              title: '司机详情'
+            }
           },
           {
             path: 'workArrange-setting',
-            component: () => import('@/views/transit/workArrange-manage/components/workArrange-setting.vue')
+            component: () => import('@/views/transit/workArrange-manage/components/workArrange-setting.vue'),
+            meta: {
+              hidden: true,
+              title: '排班设置'
+            }
           }
         ]
       },
@@ -103,19 +172,35 @@ const routes = [
         children: [
           {
             path: 'order-manage',
-            component: () => import('@/views/business/order-manage')
+            component: () => import('@/views/business/order-manage'),
+            meta: {
+              hidden: false,
+              title: '订单管理'
+            }
           },
           {
             path: 'waybill',
-            component: () => import('@/views/business/waybill')
+            component: () => import('@/views/business/waybill'),
+            meta: {
+              hidden: false,
+              title: '运单管理'
+            }
           },
           {
             path: 'edit-order',
-            component: () => import('@/views/business/order-manage/components/edit-order')
+            component: () => import('@/views/business/order-manage/components/edit-order'),
+            meta: {
+              hidden: true,
+              title: '订单详情'
+            }
           },
           {
             path: 'waybill-detail',
-            component: () => import('@/views/business/waybill/components/waybill-detail.vue')
+            component: () => import('@/views/business/waybill/components/waybill-detail.vue'),
+            meta: {
+              hidden: true,
+              title: '运单详情'
+            }
           }
         ]
       },
@@ -126,15 +211,27 @@ const routes = [
         children: [
           {
             path: 'transport-task',
-            component: () => import('@/views/transport/transport-task')
+            component: () => import('@/views/transport/transport-task'),
+            meta: {
+              hidden: false,
+              title: '运输任务管理'
+            }
           },
           {
             path: 'line-manage',
-            component: () => import('@/views/transport/line-manage')
+            component: () => import('@/views/transport/line-manage'),
+            meta: {
+              hidden: false,
+              title: '线路管理'
+            }
           },
           {
             path: 'task-detail',
-            component: () => import('@/views/transport/transport-task/components/task-detail')
+            component: () => import('@/views/transport/transport-task/components/task-detail'),
+            meta: {
+              hidden: true,
+              title: '任务详情'
+            }
           }
         ]
       }

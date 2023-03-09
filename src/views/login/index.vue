@@ -36,7 +36,7 @@
               </template>
             </el-input>
           </el-form-item>
-          <el-button type="primary" class="login-button" @click="login">登录</el-button>
+          <el-button :loading="btnLoading" type="primary" class="login-button" @click="login">登录</el-button>
         </el-form>
       </div>
     </div>
@@ -50,6 +50,7 @@ export default {
   name: 'LoginView',
   data () {
     return {
+      btnLoading: false,
       form: '',
       captchaUrl: '',
       formData: {
@@ -86,12 +87,15 @@ export default {
     async  login () {
       await this.$refs.form.validate()
       try {
+        this.btnLoading = true
         const { data: { data } } = await loginAPI(this.formData)
         this.handleLogin(data)
         this.$router.push('/')
       } catch (error) {
         this.getCaptcha()
         console.log(error)
+      } finally {
+        this.btnLoading = false
       }
     }
   }

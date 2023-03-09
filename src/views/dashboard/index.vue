@@ -77,16 +77,13 @@
     <el-row :gutter="20" class="row-2">
       <el-col :span="14">
         <DashboardCard title="待办任务">
-          <div class="chartRow-1" >
+          <div class="chartRow-1">
             <div class="chartBox" ref="chartBox_1"></div>
-            <div class="chartBox" ref="chartBox_2"></div>
-            <div class="chartBox" ref="chartBox_3"></div>
-            <div class="chartBox" ref="chartBox_4"></div>
           </div>
         </DashboardCard>
       </el-col>
       <el-col :span="10">
-        <DashboardCard title="执行中任务"> </DashboardCard>
+        <DashboardCard title="执行中任务"></DashboardCard>
       </el-col>
     </el-row>
   </div>
@@ -96,7 +93,7 @@ import DashboardCard from './components/dashboard-card.vue'
 import { getWorkspaceAPI } from '@/api'
 import * as echarts from 'echarts'
 import 'echarts-liquidfill'
-import { optin1 } from '@/echarts/echarts-options'
+import { optionWave } from '@/echarts/echarts-options-1'
 
 export default {
   components: { DashboardCard },
@@ -116,18 +113,18 @@ export default {
   },
 
   mounted () {
-    echarts.init(this.$refs.chartBox_1).setOption(optin1)
-    echarts.init(this.$refs.chartBox_2).setOption(optin1)
-    echarts.init(this.$refs.chartBox_3).setOption(optin1)
-    echarts.init(this.$refs.chartBox_4).setOption(optin1)
+    // optionWave.series[0].label.formatter = this.dashboard.backlog.waitingPickupRate
+    // echarts.init(this.$refs.chartBox_1).setOption(optionWave)
   },
 
   methods: {
     async initData () {
-      const {
-        data: { data }
-      } = await getWorkspaceAPI()
+      const { data: { data } } = await getWorkspaceAPI()
       this.dashboard = data
+      const opt = structuredClone(optionWave)
+      opt.series[0].label.formatter = this.dashboard.backlog.waitingPickupRate
+      console.log(opt.series[0].label.formatter)
+      echarts.init(this.$refs.chartBox_1).setOption(opt)
     }
   }
 }
@@ -149,23 +146,28 @@ export default {
 .content {
   display: flex;
   justify-content: space-evenly;
+
   .content-left {
     flex: 1;
     padding: 0 10px;
     font-size: 14px;
     border-right: 1px solid #ebeef5;
+
     .org-name {
       font-size: 16px;
       margin-bottom: 20px;
     }
+
     .address {
       margin-bottom: 8px;
       color: #818693;
     }
+
     .principal {
       margin-bottom: 23px;
       color: #818693;
     }
+
     .el-button {
       font-size: 14px;
       color: #e15536;
@@ -206,6 +208,7 @@ export default {
     }
   }
 }
+
 .el-divider--vertical {
   height: 100%;
 }
@@ -220,11 +223,13 @@ export default {
     font-size: 14px;
     margin-bottom: 10px;
   }
+
   .num {
     font-size: 32px;
     font-weight: 700;
     margin: 10px 0 20px;
   }
+
   .bottom {
     font-size: 14px;
     color: #818693;
@@ -234,6 +239,7 @@ export default {
 .row-2 {
   height: 290px;
   margin-top: 20px;
+
   & > .el-col {
     height: 100%;
 
@@ -243,12 +249,12 @@ export default {
   }
 }
 
-.chartRow-1{
+.chartRow-1 {
   display: flex;
   height: 208px;
 
   .chartBox {
-    width: 25%;
+    width: 100%;
   }
 }
 </style>
