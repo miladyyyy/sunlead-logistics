@@ -20,15 +20,15 @@ export const optionWave = {
           colorStops: [
             {
               offset: 1,
-              color: '#d36548'
+              color: '#e15536'
             },
             {
               offset: 0.5,
-              color: '#d36548'
+              color: '#e15536'
             },
             {
               offset: 0,
-              color: '#d36548'
+              color: '#e15536'
             }
           ],
           globalCoord: false
@@ -55,7 +55,7 @@ export const optionWave = {
         borderDistance: 4,
         itemStyle: {
           borderWidth: 1,
-          borderColor: '#d36548'
+          borderColor: '#e15536'
         }
       }
     },

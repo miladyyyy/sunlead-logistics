@@ -13,11 +13,9 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="订单状态:" prop="status">
-            <el-input
-              placeholder="请输入订单状态"
-              v-model="searchForm.status"
-              clearable
-            />
+           <el-select v-model="searchForm.status" placeholder="请选择订单状态" clearable>
+              <el-option v-for="item in statusMap" :key="item.value" :label="item.label" :value="item.value"/>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -253,12 +251,27 @@
 import { searchOrderListAPI } from '@/api/order-manager'
 import { getAreasAPI, getAreasByIdAPI } from '@/api'
 
+const statusMap = [
+  { label: '待取件', value: 23000 },
+  { label: '已取件', value: 23001 },
+  { label: '网点自寄', value: 23002 },
+  { label: '网点入库', value: 23003 },
+  { label: '待装车', value: 23004 },
+  { label: '运输中', value: 23005 },
+  { label: '网点出库', value: 23006 },
+  { label: '待派送', value: 23007 },
+  { label: '派送中', value: 23008 },
+  { label: '已签收', value: 23009 },
+  { label: '拒收', value: 23010 },
+  { label: '已取消', value: 23011 }
+]
+
 export default {
   name: 'OrderManage',
   data () {
     return {
       loading: false,
-
+      statusMap: Object.freeze(statusMap),
       searchForm: {
         id: '',
         transportOrderId: '',
@@ -301,6 +314,7 @@ export default {
   },
 
   created () {
+    Object.assign(this.searchForm, { status: +this.$route.query.status })
     this.searchOrderList()
   },
 
@@ -347,11 +361,7 @@ export default {
     async searchOrderList () {
       this.loading = true
       try {
-        const {
-          data: {
-            data: { counts, items }
-          }
-        } = await searchOrderListAPI({
+        const { data: { data: { counts, items } } } = await searchOrderListAPI({
           ...this.pageParams,
           ...this.searchForm
         })
@@ -382,6 +392,7 @@ export default {
       this.searchForm.receiverProvinceId = ''
       this.searchForm.receiverCityId = ''
       this.searchForm.receiverCountyId = ''
+      this.searchForm.status = ''
       this.senderAddress = {
         provinceOptions: [],
         cityOptions: [],
@@ -396,34 +407,7 @@ export default {
     },
 
     statusFormatter (row, column, cellValue) {
-      switch (cellValue) {
-        case 23000:
-          return '待取件'
-        case 23001:
-          return '已取件'
-        case 23002:
-          return '网点自寄'
-        case 23003:
-          return '网点入库'
-        case 23004:
-          return '待装车'
-        case 23005:
-          return '运输中'
-        case 23006:
-          return '网点出库'
-        case 20007:
-          return '待派送'
-        case 23008:
-          return '派送中'
-        case 23009:
-          return '已签收'
-        case 23010:
-          return '拒收'
-        case 23011:
-          return '已取消'
-        default:
-          return ''
-      }
+      return statusMap.find((item) => item.value === cellValue).label
     },
 
     pickupTypeFormatter (row, column, cellValue) {

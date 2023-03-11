@@ -158,6 +158,7 @@ export default {
   },
 
   created () {
+    Object.assign(this.searchForm, this.$route.query)
     this.getOrgTree()
     this.searchTransportTaskList()
     this.getCount()
